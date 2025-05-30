@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SALNIA OTOMOTIF - Automotive E-Commerce</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+    :root {
+      --primary-color: #f6402d;
+      --secondary-color: #f53d2d;
+      --background-color: #f5f5f7;
+      --text-color: #333;
+      --card-bg: #fff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+.notif-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.notif-wrapper a {
+  position: relative;
+  padding: 8px 12px;
+  background: #f6402d;
+  color: white;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.notif-wrapper a:hover {
+  background: #d93420;
+}
+
+.notif-dropdown {
+  display: none;
+  position: absolute;
+  top: 120%;
+  right: 0;
+  background: #fff;
+  color: #333;
+  min-width: 260px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.notif-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.notif-item:last-child {
+  border-bottom: none;
+}
+
+.notif-item:hover {
+  background: #f9f9f9;
+  cursor: pointer;
+}
+
+.notif-wrapper:hover .notif-dropdown {
+  display: block;
+}
+
+
+    .top-bar {
+      background-color: var(--primary-color);
+      color: white;
+      font-size: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 20px;
+    }
+
+    .top-bar a {
+      color: white;
+      margin-right: 12px;
+      text-decoration: none;
+    }
+
+    .main-header {
+      background: linear-gradient(to right, #f6402d, #f95d3c);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      color: white;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    .search-box {
+      flex: 1;
+      margin: 0 20px;
+      display: flex;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px 0 0 4px;
+      font-size: 1rem;
+    }
+
+    .search-box button {
+      padding: 8px 16px;
+      background: white;
+      border: none;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+    }
+
+    .cart-icon {
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+.cart-icon {
+  position: relative;
+  font-size: 1.4rem;
+  color: white;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-icon i {
+  font-size: 1.4rem;
+  transition: transform 0.3s;
+}
+
+.cart-icon:hover i {
+  transform: scale(1.2);
+  color: #ffd700; /* efek hover: kuning emas */
+}
+
+.cart-icon #cartCount {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  line-height: 1;
+  font-weight: bold;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+    main {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 15px 60px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .product-image {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: contain;
+      padding: 15px;
+      background: #fff;
+    }
+
+    .product-info {
+  padding: 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+    .product-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0 0 8px;
+  flex-grow: 1;
+  color: #222;
+  min-height: 40px; /* ⬅️ Menjaga tinggi judul konsisten */
+  display: flex;
+  align-items: center;
+}
+.lang-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.lang-wrapper a {
+  color: white;
+  text-decoration: none;
+  padding: 6px 10px;
+  display: block;
+}
+
+.lang-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  color: #333;
+  min-width: 160px;
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.lang-dropdown a {
+  padding: 10px 15px;
+  display: block;
+  color: #333;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.lang-dropdown a:hover {
+  background: #f0f0f0;
+}
+
+.lang-wrapper:hover .lang-dropdown {
+  display: block;
+}
+
+    .product-price {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--primary-color);
+      margin-bottom: 12px;
+    }
+
+    .btn-add-cart, .btn-checkout {
+      background-color: var(--primary-color);
+      border: none;
+      color: white;
+      font-size: 1rem;
+      padding: 10px;
+      border-radius: 25px;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-add-cart:hover, .btn-checkout:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .checkout-section {
+      text-align: center;
+      margin-top: 40px;
+    }
+       .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .cart-img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .cart-info {
+      flex-grow: 1;
+    }
+
+    .qty-control {
+      margin-top: 5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .qty-control button {
+      padding: 4px 10px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .cart-price {
+      font-weight: bold;
+      color: var(--primary-color);
+      white-space: nowrap;
+    }
+
+    .cart-total-section {
+      border-top: 1px solid #eee;
+      padding-top: 1rem;
+      text-align: right;
+    }
+
+    .cart-total-section h3 {
+      color: var(--primary-color);
+      margin: 0 0 1rem;
+    }
+
+    .btn-checkout-full {
+      width: 100%;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+    .cart-heading {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin: 0 0 16px;
+}
+.product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  height: 100%;
+}
+.top-left a i {
+  margin-right: 6px;
+  color: white;
+  font-size: 1rem;
+}
+.top-left a:hover i {
+  color: #ccc;
+}
+.top-left a.social-icon {
+  margin-right: 6px; /* ubah dari default 12px jadi lebih rapat */
+  font-size: 1rem;
+}
+.download-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.qrcode-popup {
+  display: none;
+  position: absolute;
+  top: 120%;
+  left: 0;
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 999;
+  text-align: center;
+  width: 160px;
+}
+
+.qrcode-popup img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 6px;
+}
+
+.qrcode-popup .store-links img {
+  width: 48px;
+  height: auto;
+  margin: 2px;
+}
+
+.download-wrapper:hover .qrcode-popup {
+  display: block;
+}
+.top-right a i {
+  margin-right: 6px;
+  font-size: 1rem;
+}
+.nav-divider {
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+  padding-left: 10px;
+  margin-left: 10px;
+}
+.site-footer {
+  background-color: #f5f5f5;
+  padding: 40px 20px 20px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer-column {
+  flex: 1 1 180px;
+  min-width: 160px;
+}
+
+.footer-column h4 {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 8px;
+}
+
+.footer-column ul li a {
+  color: #333;
+  text-decoration: none;
+}
+
+.footer-column ul li a:hover {
+  text-decoration: underline;
+}
+
+.payment-logos img,
+.shipping-logos img,
+.store-logos img {
+  width: 48px;
+  height: auto;
+  margin: 4px;
+}
+
+.qr {
+  width: 100px;
+  margin-bottom: 10px;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #ccc;
+  margin-top: 20px;
+  font-size: 0.85rem;
+}
+.notif-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.notif-wrapper .notif-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: yellow;
+  color: black;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-weight: bold;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+.notif-wrapper a:hover i {
+  animation: bellShake 0.4s;
+}
+
+@keyframes bellShake {
+  0% { transform: rotate(0); }
+  25% { transform: rotate(-15deg); }
+  50% { transform: rotate(15deg); }
+  75% { transform: rotate(-10deg); }
+  100% { transform: rotate(0); }
+}
+.lang-wrapper a i {
+  margin-right: 6px;
+  font-size: 1rem;
+  color: white;
+  vertical-align: middle;
+}
+
+.lang-wrapper a:hover i {
+  color: #ccc;
+}
+
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-left">
+      <a href="Login.html">Seller Centre</a>
+<a href="fixed-Daftar-Seller.html" class="nav-divider">Mulai Berjualan</a>
+      <div class="download-wrapper">
+  <a href="#" class="nav-divider">Download</a>
+  <div class="qrcode-popup">
+    <img src="assets/qrcode-sample.png" alt="QR Code Download" />
+    <div class="store-links">
+      <img src="assets/appstore.png" alt="App Store" />
+      <img src="assets/googleplay.png" alt="Google Play" />
+      <img src="assets/appgallery.png" alt="App Gallery" />
+    </div>
+  </div>
+</div>
+      <span class="nav-divider">Ikuti kami di</span>
+<a href="https://facebook.com" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+<a href="https://instagram.com" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+<a href="https://youtube.com" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
+
+    </div>
+    <div class="top-right">
+      <div class="notif-wrapper">
+  <a href="#">
+  <i class="fas fa-bell"></i> Notifikasi
+  <span class="notif-badge">3</span>
+</a>
+  <div class="notif-dropdown">
+    <div class="notif-item">Promo baru: Diskon 10% untuk NMAX Turbo!</div>
+    <div class="notif-item">Stok Aerox Alpha hampir habis!</div>
+    <div class="notif-item">Pesanan Anda telah dikirim!</div>
+  </div>
+</div>
+      <a href="#"><i class="fas fa-question-circle"></i> Bantuan</a>
+    <div class="lang-wrapper">
+  <a href="#"><i class="fas fa-globe"></i> Bahasa</a>
+  <div class="lang-dropdown">
+    <a href="#" onclick="setLanguage('id')">🇮🇩 Bahasa Indonesia</a>
+    <a href="#" onclick="setLanguage('en')">🇺🇸 English</a>
+  </div>
+</div>
+      <a href="Daftar.html">Daftar</a>
+      <a href="Login.html" class="nav-divider">Log In</a>
+    </div>
+  </div>
+
+  <header class="main-header">
+    <div class="logo">
+  <a href="index.html">
+    <img src="assets/salnia-logo.png" alt="SALNIA Logo" style="height: 50px;" />
+  </a>
+</div>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Cari produk..." />
+      <button onclick="filterProducts()" style="background: white; border: none; padding: 0 12px; border-radius: 0 4px 4px 0; display: flex; align-items: center; cursor: pointer;">
+  <i class="fas fa-search"></i>
+</button>
+    </div>
+    <div class="cart-icon" onclick="toggleCart()">
+  <i class="fas fa-shopping-cart"></i>
+  <span id="cartCount">0</span>
+</div>
+
+</div>
+  </header>
+
+  <main>
+    <div class="product-grid"></div>
+  </main>
+
+  <aside id="cartSidebar" style="
+  position: fixed;
+  right: -350px;
+  top: 0;
+  width: 350px;
+  height: 100%;
+  background: white;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+  transition: right 0.3s ease;
+  z-index: 999;
+  padding: 20px;
+  overflow-y: auto;
+">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+   <h2 class="cart-heading">Keranjang Belanja</h2>
+    <button onclick="toggleCart()" style="
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+    ">✖</button>
+  </div>
+  <div id="cartItems"></div>
+ <div style="border-top: 1px solid #eee; padding-top: 1rem;">
+  <p style="margin: 0;">Total</p>
+  <h3 id="cartTotal" style="color: var(--primary-color); margin: 0 0 1rem;"></h3>
+  <button class="btn-checkout-full" onclick="goToCheckout()">Checkout</button>
+</div>
+
+
+</aside>
+<script>
+  function setLanguage(lang) {
+    alert("Bahasa dipilih: " + (lang === "id" ? "Bahasa Indonesia" : "English"));
+    // Simpan di localStorage atau redirect jika diperlukan
+  }
+</script>
+
+ <script>
+  const products = [
+    {
+  id: 1,
+  title: "YAMAHA AEROX ALPHA TURBO",
+  price: 39079332,
+  image: "https://brdsg.com/img/800/bw5d48ohbw5jup2tq9_3/Cyygud2XaVOhfXKCypfXU5hgpQRPf6TSeGAIzHB7mOQ.png",
+  description: "Motor sport matic bertenaga turbo dengan desain futuristik."
+},
+    {
+  id: 2,
+  title: "YAMAHA NMAX TURBO",
+  price: 47940406,
+  image: "https://www.yamaha-banjarnegara.com/wp-content/uploads/2024/06/nmax-turbo-tech-max-ultimate.png",
+  description: "Motor sport matic bertenaga turbo dengan desain futuristik."
+},
+{
+  id: 3,
+  title: "YAMAHA XMAX 250 CONNECTED",
+  price: 47940406,
+  image: "https://www.yamaha-motor.co.id/uploads/products/new_product_model_image/2024100709252593471K95699.png",
+  description: "Motor sport matic bertenaga turbo dengan desain futuristik."
+},
+{
+  id: 4,
+  title: "HONDA PCX SERIES",
+  price: 31001768,
+  image: "https://honda-motor.id/wp-content/uploads/2024/02/Honda-PCX-160-CBS-Brilliant-Black-1.png",
+  description: "Motor sport matic bertenaga turbo dengan desain futuristik."
+},
+{
+  id: 5,
+  title: "HONDA ADV SERIES",
+  price: 35821049, 
+  image: "https://honda-motor.id/wp-content/uploads/2024/02/Honda-ADV-160-CBS-Dynamic-Gray.png",
+  description: "Motor sport matic bertenaga turbo dengan desain futuristik."
+},
+{
+  id: 6,
+  title: "YAMAHA FAZZIO NEO CONNECTED",
+  price: 24166738,
+  image: "https://yamahametro.com/wp-content/uploads/2024/10/FAZZIO-NEOHYBRIDCON-GREEN.jpg",
+  description: "Motor sport matic bertenaga turbo dengan desain futuristik."
+},
+{
+  id: 7,
+  title: "YAMAHA GRAND FILANO",
+  price: 30138668,
+  image: "https://www.yamaha-banjarnegara.com/wp-content/uploads/2023/01/filano-pink.png",
+  description: "Skuter klasik modern dengan fitur connected dan tampilan stylish."
+},
+{
+  id: 8,
+  title: "NEW HONDA SCOOPY",
+  price: 22163501,
+  image: "https://assets.pikiran-rakyat.com/crop/0x0:0x0/720x0/webp/photo/2020/11/10/3180433976.jpg",
+  description: "Motor sport matic bertenaga turbo dengan desain futuristik."
+},
+{
+  id: 9,
+  title: "NEW HONDA STYLO 160 ABS",
+  price: 31404535,
+  image: "https://honda-motor.id/wp-content/uploads/2024/02/Stylo-160-CBS-Glam-Beige.png",
+  description: "Motor sport matic bertenaga turbo dengan desain futuristik."
+},
+{
+  id: 10,
+  title: "PIAGIO VESPA PRIMAVERA S 150",
+  price: 45545343,
+  image: "https://image.cermati.com/v1557470728/dfdqs2rcv2lsldv3mfd2.png",
+  description: "Motor sport matic bertenaga turbo dengan desain futuristik."
+}
+  ];
+
+  const cart = JSON.parse(localStorage.getItem("salnia_cart")) || [];
+
+  function formatRupiah(value) {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR'
+    }).format(value);
+  }
+
+  function renderProducts() {
+    const productGrid = document.querySelector(".product-grid");
+    productGrid.innerHTML = "";
+    products.forEach(product => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+  <div class="product-image-wrapper">
+    <a href="product.html?id=${product.id}" style="text-decoration: none; color: inherit;">
+      <img src="${product.image}" alt="${product.title}" class="product-image" loading="lazy" />
+    </a>
+  </div>
+  <div class="product-info">
+    <a href="product.html?id=${product.id}" style="text-decoration: none; color: inherit;">
+      <h3 class="product-title">${product.title}</h3>
+      <div class="product-price">${formatRupiah(product.price)}</div>
+    </a>
+    <button class="btn-add-cart">Add to Cart</button>
+  </div>
+`;
+
+      const button = card.querySelector(".btn-add-cart");
+      button.addEventListener("click", () => {
+        const existing = cart.find(p => p.id === product.id);
+        if (existing) {
+  existing.qty++;
+} else {
+  cart.push({ ...product, qty: 1 });
+}
+localStorage.setItem("salnia_cart", JSON.stringify(cart));
+renderCartItems();
+updateCartCount();
+
+      });
+      productGrid.appendChild(card);
+    });
+  }
+
+  function toggleCart() {
+    if (window.location.hash === "#cart") {
+  showCartSidebar(); // Panggil fungsi yang membuka sidebar
+}
+function showCartSidebar() {
+  document.getElementById("cartSidebar").classList.add("open");
+}
+
+    const cartSidebar = document.getElementById("cartSidebar");
+    cartSidebar.style.right = cartSidebar.style.right === "0px" ? "-350px" : "0px";
+    renderCartItems();
+  }
+
+  function renderCartItems() {
+    const cartItemsContainer = document.getElementById("cartItems");
+    const cartTotalElement = document.getElementById("cartTotal");
+    cartItemsContainer.innerHTML = "";
+
+    if (cart.length === 0) {
+      cartItemsContainer.innerHTML = "<p>Keranjang masih kosong.</p>";
+      cartTotalElement.innerText = formatRupiah(0);
+      return;
+    }
+
+    let total = 0;
+
+    cart.forEach((item, index) => {
+      total += item.price * item.qty;
+
+      const div = document.createElement("div");
+      div.className = "cart-item";
+      div.innerHTML = `
+        <img src="${item.image}" alt="${item.title}" class="cart-img"/>
+        <div class="cart-info">
+          <strong>${item.title}</strong>
+          <div class="qty-control">
+            <button onclick="decreaseQty(${index})">−</button>
+            <span>${item.qty}</span>
+            <button onclick="increaseQty(${index})">+</button>
+          </div>
+        </div>
+        <div class="cart-price">${formatRupiah(item.price * item.qty)}</div>
+      `;
+      cartItemsContainer.appendChild(div);
+    });
+
+    cartTotalElement.innerText = formatRupiah(total);
+  }
+
+  function updateCartCount() {
+  const count = cart.reduce((sum, item) => sum + item.qty, 0);
+  const countElement = document.getElementById("cartCount");
+
+  if (count > 0) {
+    countElement.innerText = count;
+    countElement.style.display = "inline-block";
+  } else {
+    countElement.style.display = "none";
+  }
+}
+
+function increaseQty(index) {
+  cart[index].qty++;
+  localStorage.setItem("salnia_cart", JSON.stringify(cart)); // ⬅️ simpan
+  renderCartItems();
+  updateCartCount();
+}
+
+function decreaseQty(index) {
+  if (cart[index].qty > 1) {
+    cart[index].qty--;
+  } else {
+    cart.splice(index, 1);
+  }
+  localStorage.setItem("salnia_cart", JSON.stringify(cart)); // ⬅️ ini penting!
+  renderCartItems();
+  updateCartCount();
+}
+
+
+  function goToCheckout() {
+    if (cart.length === 0) {
+      alert("Keranjang kosong!");
+      return;
+    }
+    localStorage.setItem("salnia_cart", JSON.stringify(cart));
+    window.location.href = "checkout.html";
+  }
+renderProducts();
+function filterProducts() {
+  localStorage.setItem("salnia_cart", JSON.stringify(cart));
+  const searchInput = document.getElementById("searchInput").value.toLowerCase();
+  const filtered = products.filter(product =>
+    product.title.toLowerCase().includes(searchInput)
+  );
+
+  const productGrid = document.querySelector(".product-grid");
+  productGrid.innerHTML = "";
+
+  filtered.forEach(product => {
+    const card = document.createElement("div");
+    card.className = "product-card";
+    card.innerHTML = `
+      <div class="product-image-wrapper">
+        <a href="product.html?id=${product.id}" style="text-decoration: none; color: inherit;">
+          <img src="${product.image}" alt="${product.title}" class="product-image" loading="lazy" />
+        </a>
+      </div>
+      <div class="product-info">
+        <a href="product.html?id=${product.id}" style="text-decoration: none; color: inherit;">
+          <h3 class="product-title">${product.title}</h3>
+          <div class="product-price">${formatRupiah(product.price)}</div>
+        </a>
+        <button class="btn-add-cart">Add to Cart</button>
+      </div>
+    `;
+
+    const button = card.querySelector(".btn-add-cart");
+    button.addEventListener("click", () => {
+  const existing = cart.find(p => p.id === product.id);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ ...product, qty: 1 });
+  }
+
+  // ⬅ Tambahkan baris ini agar sinkron ke localStorage
+  localStorage.setItem("salnia_cart", JSON.stringify(cart));
+
+  renderCartItems();
+  updateCartCount();
+});
+
+
+    productGrid.appendChild(card);
+  });
+}
+document.getElementById("searchInput").addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    filterProducts();
+  }
+});
+function clearCart() {
+  localStorage.removeItem("salnia_cart");
+  cart.length = 0;
+  renderCartItems();
+  updateCartCount();
+  alert("Keranjang telah dikosongkan.");
+}
+const channel = new BroadcastChannel("cart_channel");
+channel.postMessage({ action: "cart_updated" });
+channel.onmessage = function (event) {
+  if (event.data.action === "cart_updated") {
+    const storedCart = JSON.parse(localStorage.getItem("salnia_cart")) || [];
+    cart.length = 0;
+    cart.push(...storedCart);
+    renderCartItems();
+    updateCartCount();
+  }
+};
+if (window.location.hash === "#cart") {
+  setTimeout(() => toggleCart(), 300);
+}
+document.addEventListener("DOMContentLoaded", function () {
+  updateCartCount();
+});
+</script>
+</body>
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-column">
+      <h4>Layanan Pelanggan</h4>
+      <ul>
+        <li><a href="#">Bantuan</a></li>
+        <li><a href="#">Metode Pembayaran</a></li>
+        <li><a href="#">SalniaPay</a></li>
+        <li><a href="#">Koin Salnia Shop</a></li>
+        <li><a href="#">Lacak Pesanan</a></li>
+        <li><a href="#">Gratis Ongkir</a></li>
+        <li><a href="#">Pengembalian</a></li>
+        <li><a href="#">Garansi Salnia SHop</a></li>
+        <li><a href="#">Hubungi Kami</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Jelajahi Salnia Online Shop</h4>
+      <ul>
+        <li><a href="#">Tentang Kami</a></li>
+        <li><a href="#">Karir</a></li>
+        <li><a href="#">Kebijakan Salnia Shop</a></li>
+        <li><a href="#">Kebijakan Privasi</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Salnia Mall</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Pembayaran</h4>
+      <div class="payment-logos">
+        <img src="assets/bca.png" alt="BCA" />
+        <img src="assets/bri.png" alt="BRI" />
+        <img src="assets/visa.png" alt="Visa" />
+        <!-- Tambahkan logo lain sesuai kebutuhan -->
+      </div>
+    </div>
+    <div class="footer-column">
+      <h4>Pengiriman</h4>
+      <div class="shipping-logos">
+        <img src="assets/jne.png" alt="JNE" />
+        <img src="assets/jnt.png" alt="J&T" />
+        <img src="assets/indah-cargo.png" alt="Ninja" />
+      </div>
+    </div>
+    <div class="footer-column">
+      <h4>Ikuti Kami</h4>
+      <ul>
+        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Download Aplikasi Salnia Online Shop</h4>
+      <img src="assets/qrcode-sample.png" alt="QR Code" class="qr" />
+      <div class="store-logos">
+        <img src="assets/appstore.png" alt="App Store" />
+        <img src="assets/googleplay.png" alt="Google Play" />
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© Salnia 2025. Hak Cipta Dilindungi</p>
+  </div>
+</footer>
+</html>

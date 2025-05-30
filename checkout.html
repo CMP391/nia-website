@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Checkout - Shopee Style</title>
+<style>
+  /* Reset and base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    background-color: #f5f5f7;
+    color: #333;
+  }
+  h1,h2,h3,h4,h5,h6 {
+    margin: 0;
+  }
+  /* Container and layout */
+  .container {
+    max-width: 1200px;
+    margin: 24px auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgb(0 0 0 / 0.1);
+    display: flex;
+    gap: 24px;
+    padding: 24px;
+  }
+  @media (max-width: 900px) {
+    .container {
+      flex-direction: column;
+      margin: 12px;
+      padding: 16px;
+    }
+  }
+  /* Left & Right sections */
+  .left-panel,
+  .right-panel {
+    background: #fff;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.05);
+  }
+  .left-panel {
+    flex: 2;
+  }
+  .right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  /* Section titles */
+  .section-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #ee4d2d;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #ee4d2d;
+    padding-bottom: 0.25rem;
+  }
+  /* Form styling */
+  form label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+  }
+  input[type="text"],
+  input[type="tel"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+    border-radius: 6px;
+    border: 1.5px solid #ddd;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+  }
+  input[type="text"]:focus,
+  input[type="tel"]:focus,
+  textarea:focus,
+  select:focus {
+    border-color: #ee4d2d;
+    outline: none;
+  }
+  textarea {
+    resize: vertical;
+  }
+  /* Order summary table */
+  .order-items {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  .order-items th,
+  .order-items td {
+    text-align: left;
+    padding: 8px;
+  }
+  .order-items th {
+    border-bottom: 2px solid #eee;
+    font-weight: 700;
+  }
+  .order-items td {
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+  }
+  .order-product {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .order-product img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+  .order-product-details {
+    flex-grow: 1;
+  }
+  .price {
+    color: #ee4d2d;
+    font-weight: 700;
+  }
+  /* Delivery & Payment */
+  .select-group {
+    margin-bottom: 20px;
+  }
+  .select-group label {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: block;
+    color: #555;
+  }
+  .radio-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .radio-list label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1rem;
+  }
+  .radio-list input[type="radio"] {
+    accent-color: #ee4d2d;
+    width: 18px;
+    height: 18px;
+  }
+  /* Price summary */
+  .price-summary {
+    border-top: 2px solid #ee4d2d;
+    margin-top: 12px;
+    padding-top: 12px;
+    font-size: 1.1rem;
+  }
+  .price-summary div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .price-summary .total {
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: #ee4d2d;
+  }
+  /* Place order button */
+  .btn-place-order {
+    background-color: #ee4d2d;
+    color: #fff;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 15px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 6px 12px rgb(238 77 45 / 0.6);
+    margin-top: 10px;
+  }
+  .btn-place-order:hover {
+    background-color: #d13e18;
+  }
+  /* Footer disclaimer */
+  .footer-note {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 16px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <div style="padding: 20px;">
+  <a href="index.html" style="
+    display: inline-block;
+    background-color: #ee4d2d;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+  ">
+    ← Kembali ke Beranda
+  </a>
+</div>
+  <div class="container" role="main" aria-label="Checkout page">
+    <section class="left-panel" aria-labelledby="shipping-title">
+      <h2 id="shipping-title" class="section-title">Alamat Pengiriman</h2>
+      <form id="shipping-form" aria-describedby="shipping-desc">
+        <p id="shipping-desc" class="footer-note">Isi alamat pengiriman dengan lengkap dan benar.</p>
+        <label for="name">Nama Penerima</label>
+        <input type="text" id="name" name="name" placeholder="Nama lengkap" required autocomplete="name" />
+
+        <label for="phone">Nomor Telepon</label>
+        <input type="tel" id="phone" name="phone" placeholder="08xxxxxxxxxx" pattern="[0-9]{9,15}" required autocomplete="tel-national" />
+
+        <label for="address">Alamat Lengkap</label>
+        <textarea id="address" name="address" rows="3" placeholder="Jalan, nomor rumah, RT/RW, Kelurahan, Kecamatan, Kota" required></textarea>
+
+        <label for="district">Kecamatan / Kota</label>
+        <input type="text" id="district" name="district" placeholder="Kecamatan or Kota" required />
+
+        <label for="postal-code">Kode Pos</label>
+        <input type="text" id="postal-code" name="postalcode" placeholder="Kode Pos" pattern="[0-9]{5}" required />
+      </form>
+    </section>
+
+    <aside class="right-panel" aria-labelledby="order-summary-title">
+      <h2 id="order-summary-title" class="section-title">Ringkasan Pesanan</h2>
+
+      <table class="order-items" aria-describedby="order-items-desc" role="table">
+        <caption id="order-items-desc" class="footer-note">Daftar produk yang akan dibeli beserta harga dan jumlah.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Produk</th>
+            <th scope="col">Jumlah</th>
+            <th scope="col">Harga</th>
+          </tr>
+        </thead>
+        <tbody id="order-items-body">
+          <!-- Example products: fill dynamically -->
+        
+        </tbody>
+      </table>
+
+      <form id="delivery-payment-form" aria-describedby="delivery-payment-desc">
+        <p id="delivery-payment-desc" class="footer-note">Pilih opsi pengiriman dan metode pembayaran.</p>
+
+        <div class="select-group" id="delivery-group">
+          <label for="delivery-method">Metode Pengiriman</label>
+          <div class="radio-list" role="radiogroup" aria-labelledby="delivery-method">
+            <label><input type="radio" name="delivery" value="2722500" checked /> JTR by JNE - Rp2.722.500</label>
+            <label><input type="radio" name="delivery" value="1815000" /> J&T Cargo - Rp1.815.000</label>
+            <label><input type="radio" name="delivery" value="2749725" /> Indah Logistik - Rp2.749.725</label>
+            <label><input type="radio" name="delivery" value="1500000" /> Pos Indonesia - Rp1.500.0000</label>
+          </div>
+        </div>
+
+        <div class="select-group" id="payment-group">
+          <label for="payment-method">Metode Pembayaran</label>
+          <div class="radio-list" role="radiogroup" aria-labelledby="payment-method">
+            <label><input type="radio" name="payment" value="credit" checked /> Kartu Kredit / Debit</label>
+            <label><input type="radio" name="payment" value="ewallet" /> E-Wallet (ShopeePay, OVO, Dana)</label>
+            <label><input type="radio" name="payment" value="cod" /> Bayar di Tempat (COD)</label>
+          </div>
+        </div>
+
+        <div class="price-summary" aria-live="polite" aria-atomic="true">
+          <div><span>Total Produk:</span><span id="total-product-price">Rp550.000</span></div>
+          <div><span>Biaya Kirim:</span><span id="delivery-fee">Rp10.000</span></div>
+          <div class="total"><span>Total Bayar:</span><span id="total-price">Rp560.000</span></div>
+        </div>
+
+        <button type="submit" class="btn-place-order" aria-label="Place the order now">
+          Buat Pesanan
+        </button>
+      </form>
+    </aside>
+  </div>
+
+<script>
+  // Price formatting helper 
+  function formatRupiah(amount) {
+    return "Rp" + amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+function loadCartFromStorage() {
+  const cartData = localStorage.getItem("salnia_cart");
+  const cart = cartData ? JSON.parse(cartData) : [];
+  const tbody = document.getElementById("order-items-body");
+  tbody.innerHTML = "";
+
+  cart.forEach(item => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>
+        <div class="order-product">
+          <img src="${item.image}" alt="${item.title}" />
+          <div class="order-product-details">${item.title}</div>
+        </div>
+      </td>
+      <td>${item.qty}</td>
+      <td class="price" data-price="${item.price}">${formatRupiah(item.price)}</td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+loadCartFromStorage();
+calculateTotals();
+
+  // Calculate totals
+  function calculateTotals() {
+  const rows = document.querySelectorAll("#order-items-body tr");
+  let totalProductPrice = 0;
+
+  rows.forEach(row => {
+    const qty = parseInt(row.children[1].textContent, 10);
+    const price = Number(row.children[2].getAttribute("data-price"));
+    totalProductPrice += qty * price;
+  });
+
+  // Ambil biaya pengiriman dari radio button yang dipilih
+  const deliveryRadio = document.querySelector('input[name="delivery"]:checked');
+  const deliveryFee = deliveryRadio ? Number(deliveryRadio.value) : 0;
+
+  // Hitung total akhir
+  const totalPrice = totalProductPrice + deliveryFee;
+
+  // Tampilkan hasil
+  document.getElementById("total-product-price").textContent = formatRupiah(totalProductPrice);
+  document.getElementById("delivery-fee").textContent = formatRupiah(deliveryFee);
+  document.getElementById("total-price").textContent = formatRupiah(totalPrice);
+}
+
+
+  // Event listeners for delivery method changes
+  document.querySelectorAll('input[name="delivery"]').forEach(input => {
+    input.addEventListener("change", () => {
+      calculateTotals();
+    });
+  });
+function loadCartFromStorage() {
+  const cartData = localStorage.getItem("salnia_cart");
+  const cart = cartData ? JSON.parse(cartData) : [];
+  const tbody = document.getElementById("order-items-body");
+  tbody.innerHTML = "";
+
+  cart.forEach(item => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>
+        <div class="order-product">
+          <img src="${item.image}" alt="${item.title}" />
+          <div class="order-product-details">${item.title}</div>
+        </div>
+      </td>
+      <td>${item.qty}</td>
+      <td class="price" data-price="${item.price}">${formatRupiah(item.price)}</td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+  // Form submission handler
+  
+  // Form submission handler
+document.getElementById("delivery-payment-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const shippingForm = document.getElementById("shipping-form");
+
+  if (!shippingForm.checkValidity()) {
+    alert("Mohon lengkapi data alamat pengiriman dengan benar.");
+    shippingForm.reportValidity();
+    return;
+  }
+
+  const shippingData = {
+    name: shippingForm.name.value.trim(),
+    phone: shippingForm.phone.value.trim(),
+    address: shippingForm.address.value.trim(),
+    district: shippingForm.district.value.trim(),
+    postalcode: shippingForm['postalcode'].value.trim(),
+  };
+
+  const deliveryMethod = document.querySelector('input[name="delivery"]:checked').nextSibling.textContent.trim();
+  const paymentMethod = document.querySelector('input[name="payment"]:checked').nextSibling.textContent.trim();
+  const totalPrice = document.getElementById("total-price").textContent;
+
+  const orderData = {
+    shippingData,
+    deliveryMethod,
+    paymentMethod,
+    totalPrice,
+  };
+
+  localStorage.setItem("salnia_order", JSON.stringify(orderData));
+  window.location.href = "payment-success.html";
+});
+
+  // Initial totals calculation on page load
+  calculateTotals();
+</script>
+</body>
+</html>
+

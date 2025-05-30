@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daftar | SALNIA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f6402d;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+    .container {
+      margin: 40px auto;
+        background-color: #fff;
+      display: flex;
+      width: 800px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .left {
+      flex: 1;
+      background-color: #f6402d;
+      color: white;
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .left h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .left img {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+    body {
+  font-family: 'Inter', sans-serif;
+}
+    .left p {
+  font-size: 18px;
+  font-weight: 600; /* opsional agar lebih tegas */
+}
+
+    .right {
+      flex: 1;
+      padding: 40px 30px;
+    }
+    .right h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .btn {
+      background-color: #f6402d;
+      border: none;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-bottom: 15px;
+    }
+    .btn:hover {
+      background-color: #d63626;
+    }
+    .or {
+      text-align: center;
+      margin: 10px 0;
+      position: relative;
+    }
+    .or::before, .or::after {
+      content: "";
+      height: 1px;
+      background: #ccc;
+      position: absolute;
+      top: 50%;
+      width: 40%;
+    }
+    .or::before {
+      left: 0;
+    }
+    .or::after {
+      right: 0;
+    }
+    .social-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .social-buttons button {
+      flex: 1;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .social-buttons img {
+      width: 18px;
+    }
+    .login-link {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+    .login-link a {
+      color: #f6402d;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .site-footer {
+  background-color: #f5f5f5;
+  padding: 40px 20px 20px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer-column {
+  flex: 1 1 180px;
+  min-width: 160px;
+}
+
+.footer-column h4 {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 8px;
+}
+
+.footer-column ul li a {
+  color: #333;
+  text-decoration: none;
+}
+
+.footer-column ul li a:hover {
+  text-decoration: underline;
+}
+
+.payment-logos img,
+.shipping-logos img,
+.store-logos img {
+  width: 48px;
+  height: auto;
+  margin: 4px;
+}
+
+.qr {
+  width: 100px;
+  margin-bottom: 10px;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #ccc;
+  margin-top: 20px;
+  font-size: 0.85rem;
+}
+.header {
+  background-color: white;
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-logo img {
+  height: 30px;
+}
+
+.header-logo span {
+  font-size: 20px;
+  font-weight: 600;
+  color: #000000;
+}
+
+.help-link {
+  font-size: 14px;
+  color: #f6402d;
+  text-decoration: none;
+  font-weight: 500;
+}
+  </style>
+</head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<body>
+    <header class="header">
+  <div class="header-logo">
+  <a href="index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+    <img src="assets/salnia-logo-orange.png" alt="Salnia Logo" style="width: 40px;" />
+    <span style="font-size: 20px; font-weight: 600; color: #000000;">Daftar</span>
+  </a>
+</div>
+  <a href="#" class="help-link">Butuh bantuan?</a>
+</header>
+  <div class="container">
+    <div class="left">
+      <h1>Belanja di</h1>
+      <img src="assets/salnia-logo.png" alt="Logo Shopee" style="width: 120px;" />
+      <p>Lebih Hemat Lebih Cepat</p>
+    </div>
+    <div class="right">
+      <h2>Daftar</h2>
+      <input type="text" placeholder="Nomor Telepon" />
+      <button class="btn">BERIKUTNYA</button>
+      <div class="or">ATAU</div>
+      <div class="social-buttons">
+        <button><img src="https://cdn-icons-png.flaticon.com/512/145/145802.png" alt="Facebook" /> Facebook</button>
+        <button><img src="https://cdn-icons-png.flaticon.com/512/281/281764.png" alt="Google" /> Google</button>
+      </div>
+      <div class="login-link">
+        Punya akun? <a href="#">Log in</a>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-column">
+      <h4>Layanan Pelanggan</h4>
+      <ul>
+        <li><a href="#">Bantuan</a></li>
+        <li><a href="#">Metode Pembayaran</a></li>
+        <li><a href="#">SalniaPay</a></li>
+        <li><a href="#">Koin Salnia Shop</a></li>
+        <li><a href="#">Lacak Pesanan</a></li>
+        <li><a href="#">Gratis Ongkir</a></li>
+        <li><a href="#">Pengembalian</a></li>
+        <li><a href="#">Garansi Salnia SHop</a></li>
+        <li><a href="#">Hubungi Kami</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Jelajahi Salnia Online Shop</h4>
+      <ul>
+        <li><a href="#">Tentang Kami</a></li>
+        <li><a href="#">Karir</a></li>
+        <li><a href="#">Kebijakan Salnia Shop</a></li>
+        <li><a href="#">Kebijakan Privasi</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Salnia Mall</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Pembayaran</h4>
+      <div class="payment-logos">
+        <img src="assets/bca.png" alt="BCA" />
+        <img src="assets/bri.png" alt="BRI" />
+        <img src="assets/visa.png" alt="Visa" />
+        <!-- Tambahkan logo lain sesuai kebutuhan -->
+      </div>
+    </div>
+    <div class="footer-column">
+      <h4>Pengiriman</h4>
+      <div class="shipping-logos">
+        <img src="assets/jne.png" alt="JNE" />
+        <img src="assets/jnt.png" alt="J&T" />
+        <img src="assets/indah-cargo.png" alt="Ninja" />
+      </div>
+    </div>
+    <div class="footer-column">
+      <h4>Ikuti Kami</h4>
+      <ul>
+        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Download Aplikasi Salnia Online Shop</h4>
+      <img src="assets/qrcode-sample.png" alt="QR Code" class="qr" />
+      <div class="store-logos">
+        <img src="assets/appstore.png" alt="App Store" />
+        <img src="assets/googleplay.png" alt="Google Play" />
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© Salnia 2025. Hak Cipta Dilindungi</p>
+  </div>
+</footer>
+</body>
+</html>

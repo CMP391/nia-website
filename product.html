@@ -1,0 +1,530 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detail Produk - SALNIA</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .product-image {
+      width: 100%;
+      max-height: 400px;
+      object-fit: contain;
+    }
+    h1 {
+      font-size: 1.8rem;
+      color: #333;
+    }
+    .price {
+      font-size: 1.2rem;
+      color: #e53935;
+      margin: 10px 0;
+    }
+    .description {
+      font-size: 1rem;
+      line-height: 1.6;
+      text-indent: 2em;
+      white-space: pre-line;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #f6402d;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn.secondary {
+      background: #777;
+      margin-left: 10px;
+    }
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #f4f4f4;
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .spec-table td {
+      padding: 10px;
+      vertical-align: top;
+      font-size: 0.95rem;
+      color: #333;
+    }
+    .spec-table tr:not(:last-child) td {
+      border-bottom: 1px solid #ddd;
+    }
+    .spec-table td:first-child {
+      font-weight: bold;
+      white-space: nowrap;
+      color: #444;
+    }
+
+    .floating-cart {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #f6402d;
+      color: white;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .floating-cart:hover {
+      background: #e53935;
+    }
+
+    .floating-cart #cartCount {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background-color: yellow;
+      color: black;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 12px;
+      font-weight: bold;
+    }
+
+    .cart-sidebar {
+      position: fixed;
+      right: -320px;
+      top: 0;
+      width: 300px;
+      height: 100%;
+      background: white;
+      box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+      transition: right 0.3s ease-in-out;
+      padding: 20px;
+      z-index: 9999;
+    }
+    .cart-sidebar.open {
+      right: 0;
+    }
+    .cart-sidebar h3 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      color: #f6402d;
+    }
+    .cart-sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+    .cart-sidebar li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .cart-sidebar li button {
+      background: none;
+      border: none;
+      color: red;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close-cart-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #f6402d;
+  cursor: pointer;
+}
+.close-cart-btn:hover {
+  color: #b30000;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="floating-cart">
+      <i class="fas fa-shopping-cart"></i>
+      <span id="cartCount">0</span>
+    </div>
+
+    <img id="productImage" class="product-image" src="" alt="Gambar Produk">
+    <h1 id="productTitle">Judul Produk</h1>
+    <div class="price" id="productPrice">Rp0</div>
+    <div class="description" id="productDescription">Deskripsi produk akan muncul di sini.</div>
+
+    <h2>Spesifikasi Motor</h2>
+    <table class="spec-table" id="specTable"></table>
+
+    <button class="btn" onclick="addToCart()">+ Tambah ke Keranjang</button>
+    <a href="index.html" class="btn secondary">← Kembali</a>
+  </div>
+
+  <div id="cartSidebar" class="cart-sidebar">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h3>Keranjang Belanja</h3>
+    <button onclick="closeCart()" class="close-cart-btn">✖</button>
+  </div>
+
+    <ul id="cartItems"></ul>
+    <p><strong>Total:</strong> <span id="cartTotal">Rp0</span></p>
+    <button onclick="checkoutCart()" class="btn">Checkout Sekarang</button>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = parseInt(urlParams.get("id"));
+    const cart = JSON.parse(localStorage.getItem("salnia_cart")) || [];
+
+    const products = [
+      {
+    id: 1,
+    title: "YAMAHA AEROX ALPHA TURBO",
+    price: 39079332,
+    image: "https://brdsg.com/img/800/bw5d48ohbw5jup2tq9_3/Cyygud2XaVOhfXKCypfXU5hgpQRPf6TSeGAIzHB7mOQ.png",
+    specs: {
+"Tipe Mesin"	:	"4 Langkah, berpendingin cairan, SOHC 4 katup, VVA",
+"Jumlah Silinder"	:	"Silinder Tunggal",
+"Diameter x Langkah"	:	"58 x 58,7 mm",
+"Kapasitas Mesin"	:	"155,09cc",
+"Daya Maksimum"	:	"11,3 kW (15,4 PS) / 8000 rpm",
+"Torsi Maksimum"	:	"14,2 Nm / 8000 rpm",
+"Sistem Starter"	:	"Electric Strater",
+"Sistem Pelumasan"	:	"Pelumasan Basah",
+"Kapasitas Oli Mesin"	:	"1,00 L (TURBO & TURBO Ultimate), 0,90 L (Standard & CyberCity)",
+"Sistem Bahan Bakar"	:	"Fuel Injection",
+"Tipe Kopling"	:	"Kopling sentrifugal, Kering",
+"Tipe Transmisi"	:	"V-Belt Otomatis / YECVT (TURBO & TURBO Ultimate)",
+"Perbandingan Kompresi"	:	"11,6 : 1",
+    }
+  },
+  {
+    id: 2,
+    title: "YAMAHA NMAX TURBO",
+    price: 47940406,
+    image: "https://www.yamaha-banjarnegara.com/wp-content/uploads/2024/06/nmax-turbo-tech-max-ultimate.png",
+    specs: {
+     "Tipe Mesin"	:	"155cc Blue Core, VVA, 4 Valve SOHC + YECVT",
+"Tipe Mesin Neo"	:	"155cc Blue Core, VVA, 4 Valve SOHC",
+"Jumlah/Posisi Silinder"	:	"Single Cylinder",
+"Volume Silinder"	:	"155.09 cc",
+"Diameter x Langkah"	:	"58 mm x 58.7 mm",
+"Perbandingan Kompresi"	:	"11.6 : 1",
+"Daya Maksimum"	:	"11.3 kW / 8000 rpm",
+"Torsi Maksimum"	:	"14.2 Nm / 6500 rpm",
+"Sistem Starter"	:	"Electric Starter",
+"Sistem Pelumasan"	:	"Wet Sump",
+"Kapasitas Oli Mesin"	:	"1 L",
+"Sistem Bahan Bakar"	:	"Fuel Injection",
+"Tipe Kopling"	:	"Single Dry Clucth",
+"Tipe Transmisi"	:	"Automatic",
+    }
+  },
+  {
+  id: 3,
+  title: "YAMAHA XMAX 250 CONNECTED",
+  price: 47940406,
+  image: "https://www.yamaha-motor.co.id/uploads/products/new_product_model_image/2024100709252593471K95699.png",
+  specs: {
+      
+"Tipe Mesin"	:	"Liquid Cooled, 4-Stroke, SOHC, 4 Valves",
+"Jumlah / Posisi Silinder"	:	"Single Cylinder",
+"Isi Silinder"	:	"249.8 cc",
+"Diameter X Langkah"	:	"70.0 mm X 64.9 mm",
+"Perbandingan Kompresi"	:	"10.5 : 1",
+"Daya Maksimum"	:	"16.8kW / 7000 rpm",
+"Torsi Maksimum"	:	"24.3 Nm / 5500 rpm",
+"Sistem Starter"	:	"Electric Starter",
+"Sistem Pelumasan"	:	"Wet Sump",
+"Kapasitas Oli Mesin"	:	"Total = 1.7 L ; Berkala = 1.5 L",
+"Sistem Bahan Bakar"	:	"Fuel Injection",
+"Tipe Kopling"	:	"Dry, Centrifugal Automatic",
+"Tipe Transmisi"	:	"V-belt Automatic",
+  }
+},
+{
+  id: 4,
+  title: "HONDA PCX SERIES",
+  price: 31001768,
+  image: "https://honda-motor.id/wp-content/uploads/2024/02/Honda-PCX-160-CBS-Brilliant-Black-1.png",
+  specs: {
+     "Tipe Mesin":	"4-Langkah, 4-Valve, eSP+",
+    "Tipe Pendingin":	"Pendingin Cairan",
+"Sistem Suplai Bahan Bakar":	"PGM-FI (Programmed Fuel Injection)",
+"Volume Langkah":	"156,9 cc",
+"Diameter X Langkah":	"60 x 55,5 mm",
+"Perbandingan Kompresi":	"12:1",
+"Daya Maksimum":	"11,8 kW (16 PS) / 8.500 rpm",
+"Torsi Maksimum":	"14,7 Nm (1,5 kgf.m) / 6.500 rpm",
+"Tipe Transmisi":	"Otomatis, V-Matic",
+"Tipe Starter":	"Elektrik",
+"Tipe Kopling":	"Otomatis, Sentrifugal, Tipe Kering",
+"Kapasitas Minyak Pelumas":	"0,8 liter (Penggantian Periodik)", 
+}
+},
+{
+  id: 5,
+  title: "HONDA ADV SERIES",
+  price: 35821049, 
+  image: "https://honda-motor.id/wp-content/uploads/2024/02/Honda-ADV-160-CBS-Dynamic-Gray.png",
+  specs: {
+    "Tipe Mesin":	"4-Langkah, 4-Katup, eSP+",
+"Tipe Pendinginan":	"Pendingin Cairan",
+"Sistem Suplai Bahan Bakar":	"PGM-FI (Programmed Fuel Injection)",
+"Volume Langkah":	"156,9 cc",
+"Diameter x Langkah":	"60 x 55,5 mm",
+"Perbandingan Kompresi":	"12 : 1",
+"Daya Maksimum":	"11,8 kW (16 PS) / 8.500 rpm",
+"Torsi Maksimum":	"14,7 Nm (1,5 kgf.m) / 6.500 rpm",
+"Tipe Transmisi":	"Otomatis, V-Matic",
+"Tipe Starter":	"Elektrik",
+"Tipe Kopling":	"Otomatis, Sentrifugal, Tipe Kering",
+"Tipe Minyak Pelumas":	"Basah",
+"Kapasitas Minyak Pelumas":	"0,75 liter (Penggantian Periodik)",
+  }
+},
+{
+  id: 6,
+  title: "YAMAHA FAZZIO NEO CONNECTED",
+  price: 24166738,
+  image: "https://yamahametro.com/wp-content/uploads/2024/10/FAZZIO-NEOHYBRIDCON-GREEN.jpg",
+  specs:{
+    "Tipe Mesin"	:	"Pendingin Udara, 4 Langkah, SOHC",
+"Susunan Silinder"	:	"Silinder Tunggal",
+"Diameter x Langkah"	:	"52.4 mm x 57.9 mm",
+"Volume Silinder"	:	"124.86 cc",
+"Perbandingan Kompresi"	:	"11.0: 1",
+"Daya Maksimum"	:	"6.2 kW / 6500 rpm",
+"Torsi Maksimum"	:	"10.6 Nm / 4500 rpm",
+"Sistem Starter"	:	"Elektrik",
+"Sistem Pelumasan"	:	"Basah",
+"Kapasitas Oli Mesin"	:	"Total : 0.84 L ; Berkala : 0,80 L",
+"Sistem Bahan Bakar"	:	"Fuel Injection",
+"Tipe Kopling"	:	"Kopling Sentrifungal, Kering",
+"Tipe Transmisi"	:	"V-Belt Otomatis",
+  }   
+},
+{
+  id: 7,
+  title: "YAMAHA GRAND FILANO",
+  price: 30138668,
+  image: "https://www.yamaha-banjarnegara.com/wp-content/uploads/2023/01/filano-pink.png",
+  specs:{
+"Tipe Mesin"	:	"Pendingin Udara, 4-Langkah, SOHC",
+"Susunan Silinder"	:	"Silinder Tunggal",
+"Diameter x Langkah"	:	"52,4 x 57,9 mm",
+"Perbandingan Kompresi"	:	"11,0 : 1",
+"Volume Silinder"	:	"124,86 cc",
+"Daya Maksimum"	:	"6,1 kW / 6.500 rpm",
+"Torsi Maksimum"	:	"10,4 Nm / 5.000 rpm",
+"Kapasitas Oli Mesin"	:	"Total = 0,84 L; Berkala = 0,80 L",
+"Sistem Bahan Bakar"	:	"Fuel Injection",
+"Tipe Kopling"	:	"Kopling Sentrifugal, Kering",
+"Tipe Transmisi"	:	"V-Belt Otomatis",
+"Sistem Starter"	:	"Elektrik",
+"Sistem Pelumasan"	:	"Basah",
+  }
+},
+{
+  id: 8,
+  title: "NEW HONDA SCOOPY",
+  price: 22163501,
+  image: "https://assets.pikiran-rakyat.com/crop/0x0:0x0/720x0/webp/photo/2020/11/10/3180433976.jpg",
+  specs : {
+    "Tipe Mesin" :	"4 - Langkah, SOHC, eSP",
+"Tipe Pendinginan":	"Pendingin Udara",
+"Sistem Suplai Bahan Bakar"	: "PGM-FI (Programmed Fuel Injection)",
+"Volume Langkah":	"109,5 cc",
+"Diameter X Langkah":	"47 x 63,1 mm",
+"Perbandingan Kompresi":	"10,0 : 1",
+"Daya Maksimum":	"6,6 kW (9,0 PS) / 7.500 rpm",
+"Torsi Maksimum":	"9,2 Nm (0,94 kgf.m) / 6.000 rpm",
+"Tipe Starter	Elektrik & Kick Starter": "(STD) / Elektrik (Smart Key)",
+"Tipe Kopling":	"Otomatis, Sentrifugal, Tipe Kering",
+"Kapasitas Minyak Pelumas":	"0,65 Liter (Penggantian Periodik)",
+"Pelumas":	"Basah"
+  }
+},
+{
+  id: 9,
+  title: "NEW HONDA STYLO 160 ABS",
+  price: 31404535,
+  image: "https://honda-motor.id/wp-content/uploads/2024/02/Stylo-160-CBS-Glam-Beige.png",
+  specs: {
+    "Tipe Mesin":	"4 Langkah, 4 Katup, eSP+",
+"Volume Langkah":	"156,9 cc",
+"Sistem Pendingin":	"Pendingin Cairan",
+"Sistem Supply Bahan Bakar":	"PGM-FI (Programmed Fuel Injection)",
+"Diameter x Langkah":	"60 x 55,5 mm",
+"Rasio Kompresi":	"12:1",
+"Daya Maksimum":	"11,3 kW (15,4 PS) / 8,500 rpm",
+"Torsi Maksimum":	"13,8 Nm (1,5 kgf.m) / 7000 rpm",
+"Transmisi":	"Otomatis, V-Matic",
+"Sistem Starter":	"Elektrik",
+"Sistem Transmisi":	"Otomatis, Sentrifugal, Tipe Kering",
+"Tipe Minyak": "Pelumas	Basah",
+"Kapasitas Oli":	"0,8 liter (Penggantian Periodik)"
+  }
+},
+{
+  id: 10,
+  title: "PIAGIO VESPA PRIMAVERA S 150",
+  price: 45545343,
+  image: "https://image.cermati.com/v1557470728/dfdqs2rcv2lsldv3mfd2.png",
+   specs:{
+"Tipe Mesin"	:	"4 langkah, silinder tunggal dengan 3 katup",
+"Susunan Silinder"	:	"Silinder Tunggal",
+"Diameter x Langkah"	:	"52,4 x 57,9 mm",
+"Perbandingan Kompresi"	:	"11,0 : 1",
+"Volume Silinder"	:	"155 cc",
+"Daya Maksimum"	:	"8,9 kW @ 7,250 rpm",
+"Torsi Maksimum"	:	"12,7 Nm @ 5,750 rpm",
+"Sistem Pendingin"	:	"Sirkulasi Udara Tekan",
+"Sistem Bahan Bakar"	:	"Injeksi Elektronik",
+"Tipe Transmisi"	:	"CVT (Continuous Variable Transmission) Otomatis",
+"Suspensi Depan"	:	"Lengan tunggal dengan pegas helikal dan peredam kejut hidrolik tunggal dengan aksi ganda",
+"Suspensi Belakang"	:	"Peredam kejut hidrolik tunggal dengan 4 tingkat setelan kekerasan",
+"Rem Depan" : "Cakram 220 mm",
+"Rem Belakang": "Drum 140 mm",
+"Ban Depan" : "Tubeless 110/70-12”",
+"Ban Belakang" : "Tubeless 120/70-12”",
+"Panjang / Lebar": "1.870 mm / 735 mm",
+"Jarak Sumbu Roda" : "1.340 mm",
+"Ketinggian Jok" : "790 mm",
+"Kapasitas Tangki": "8 (± 0,5) liter",
+"Emisi" : "Euro 3"
+
+  }
+}
+    ]; // ← kamu bisa isi data produk di sini seperti sebelumnya
+
+    const product = products.find(p => p.id === id);
+
+    if (product) {
+      document.getElementById("productTitle").textContent = product.title;
+      document.getElementById("productPrice").textContent = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR"
+      }).format(product.price);
+      document.getElementById("productImage").src = product.image;
+      document.getElementById("productDescription").textContent = product.description;
+
+      const specTable = document.getElementById("specTable");
+      for (const [key, value] of Object.entries(product.specs)) {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${key}</td><td>${value}</td>`;
+        specTable.appendChild(row);
+      }
+    }
+
+    function updateCartCount() {
+      const count = cart.reduce((sum, item) => sum + item.qty, 0);
+      const countElement = document.getElementById("cartCount");
+      countElement.textContent = count;
+      countElement.style.display = count > 0 ? "inline-block" : "none";
+    }
+
+    function addToCart() {
+  if (!product) return;
+  const existing = cart.find(p => p.id === product.id);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ ...product, qty: 1 });
+  }
+
+  localStorage.setItem("salnia_cart", JSON.stringify(cart));
+  channel.postMessage({ action: "cart_updated" }); // <- ini yang penting!
+  updateCartCount();
+  alert("Produk ditambahkan ke keranjang!");
+  renderCartSidebar();
+}
+
+
+    function renderCartSidebar() {
+      const items = JSON.parse(localStorage.getItem("salnia_cart")) || [];
+      const list = document.getElementById("cartItems");
+      const total = document.getElementById("cartTotal");
+      list.innerHTML = "";
+      let totalHarga = 0;
+
+      if (items.length === 0) {
+        list.innerHTML = "<li>Keranjang kosong.</li>";
+        total.textContent = "Rp0";
+        return;
+      }
+
+      items.forEach(item => {
+        totalHarga += item.price * item.qty;
+        const li = document.createElement("li");
+        
+li.innerHTML = `
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <img src="${item.image}" alt="${item.title}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+    <div style="flex: 1;">
+      <div style="font-size: 0.9rem;">${item.title}</div>
+      <div style="font-size: 0.85rem; color: #555;">× ${item.qty}</div>
+    </div>
+    <button onclick="removeFromCart(${item.id})">×</button>
+  </div>`;
+
+
+        list.appendChild(li);
+      });
+
+      total.textContent = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR"
+      }).format(totalHarga);
+    }
+
+    function removeFromCart(id) {
+      let items = JSON.parse(localStorage.getItem("salnia_cart")) || [];
+      items = items.filter(item => item.id !== id);
+      localStorage.setItem("salnia_cart", JSON.stringify(items));
+      renderCartSidebar();
+      updateCartCount();
+    }
+function checkoutCart() {
+  window.location.href = "checkout.html";
+}
+
+    document.querySelector(".floating-cart").addEventListener("click", () => {
+      document.getElementById("cartSidebar").classList.toggle("open");
+      renderCartSidebar();
+    });
+function closeCart() {
+  document.getElementById("cartSidebar").classList.remove("open");
+}
+const channel = new BroadcastChannel("cart_channel");
+
+    updateCartCount();
+    
+  </script>
+</body>
+</html>
