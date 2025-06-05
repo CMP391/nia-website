@@ -238,5 +238,31 @@
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
     </div>
   </footer>
+  <script>
+  document.querySelector('.search-box button').addEventListener('click', function () {
+    const query = document.querySelector('.search-box input').value.toLowerCase();
+    const faqItems = document.querySelectorAll('.faq-item');
+    let found = false;
+
+    faqItems.forEach(item => {
+      if (item.textContent.toLowerCase().includes(query)) {
+        item.style.display = 'block';
+        found = true;
+      } else {
+        item.style.display = 'none';
+      }
+    });
+
+    if (!found) {
+      alert("Topik tidak ditemukan.");
+    }
+  });
+
+  document.querySelector('.search-box input').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      document.querySelector('.search-box button').click();
+    }
+  });
+</script>
 </body>
 </html>
