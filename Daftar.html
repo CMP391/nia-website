@@ -254,14 +254,34 @@
       <button class="btn">BERIKUTNYA</button>
       <div class="or">ATAU</div>
       <div class="social-buttons">
-         <button onclick="window.location.href='https://www.facebook.com/login/'">
+         <button onclick="openFacebookLogin()">
           <img src="https://cdn-icons-png.flaticon.com/512/145/145802.png" alt="Facebook" style="width: 18px;" />
           Facebook
           </button>
-        <button onclick="window.location.href='https://accounts.google.com/'">
+
+          <script>
+  function openFacebookLogin() {
+    window.open(
+      'https://www.facebook.com/login/', // URL tujuan
+      'FacebookLoginWindow', // Nama jendela
+      'width=500,height=600,left=100,top=100' // Ukuran dan posisi
+    );
+  }
+</script>
+        <button onclick="openGoogleLogin()">
   <img src="https://cdn-icons-png.flaticon.com/512/281/281764.png" alt="Google" style="width: 18px;" />
   Google
 </button>
+
+<script>
+  function openGoogleLogin() {
+    window.open(
+      'https://accounts.google.com/', // URL tujuan
+      'GoogleLoginWindow', // Nama jendela
+      'width=500,height=600,left=100,top=100' // Ukuran dan posisi
+    );
+  }
+</script>
       </div>
       <div class="login-link">
         Punya akun? <a href="Login.html">Log in</a>
